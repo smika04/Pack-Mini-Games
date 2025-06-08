@@ -2,8 +2,29 @@ services:
   postgres:
     image: 'postgres:latest'
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      # Залежно від ACTIVE_SPRING_PROFILE, вибираємо відповідну БД
+      - 'POSTGRES_DB=${DB_${ACTIVE_SPRING_PROFILE}_NAME}'
+      - 'POSTGRES_PASSWORD=${DB_${ACTIVE_SPRING_PROFILE}_PASSWORD}'
+      - 'POSTGRES_USER=${DB_${ACTIVE_SPRING_PROFILE}_USERNAME}'
     ports:
-      - '5432'
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    environment:
+      # Профіль Spring Boot, який буде активований
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_SPRING_PROFILE} # <--- Ось тут магія!
+      # Змінні для підключення до БД, залежать від ACTIVE_SPRING_PROFILE
+      DB_HOST: ${DB_${ACTIVE_SPRING_PROFILE}_HOST}
+      DB_NAME: ${DB_${ACTIVE_SPRING_PROFILE}_NAME}
+      DB_USERNAME: ${DB_${ACTIVE_SPRING_PROFILE}_USERNAME}
+      DB_PASSWORD: ${DB_${ACTIVE_SPRING_PROFILE}_PASSWORD}
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
