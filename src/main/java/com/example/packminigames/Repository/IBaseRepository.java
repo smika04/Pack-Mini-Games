@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 @NoRepositoryBean
-public interface IBaseRepository<T, ID> extends JpaRepository<T, ID>
+public interface IBaseRepository<E, ID> extends JpaRepository<E, ID>
 {
-    List<T> findByActiveTrue();
-    Optional<T> findByName(String name);
+    List<E> findByActiveTrue();
+    Optional<E> findByName(String name);
 }

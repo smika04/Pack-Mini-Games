@@ -1,4 +1,9 @@
 package com.example.packminigames.Repository.UserRepository;
 
-public interface IUserRepository {
+import com.example.packminigames.Models.Entity.UserEntity;
+import com.example.packminigames.Repository.IBaseRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface IUserRepository extends IBaseRepository<UserEntity, Long> {
 }
