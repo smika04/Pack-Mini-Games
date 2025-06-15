@@ -1,23 +1,18 @@
 package com.example.packminigames.Models.Domain;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "spring.datasource")
-@Validated
 @Data
 public class DatabaseProperties
 {
-    @NotBlank
     private String url;
-    @NotBlank
+    private String host;
+    private String name;
     private String username;
-    @NotBlank
     private String password;
-    @NotBlank
     private String driverClassName;
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameIcon
+public class GameIconEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

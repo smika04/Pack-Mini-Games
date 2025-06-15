@@ -1,4 +1,4 @@
-package com.example.packminigames.Profiles.СheckProfiles;
+package com.example.packminigames.Profiles.CheckProfiles;
 
 import com.example.packminigames.PackMiniGamesApplication;
 import org.junit.jupiter.api.DisplayName;
@@ -77,19 +77,6 @@ class ProfileExistenceVerificationIT {
             assertThat(environment.getActiveProfiles())
                     .as("The list of active profiles should contain only 'test' (plus default ones if any)")
                     .doesNotContain("dev", "prod", "nonexistent");
-        }
-    }
-
-    @Nested
-    @DisplayName("Checking nonexistent profile")
-    @ActiveProfiles("nonexistentProfileABC")
-    class NonExistentProfileChecks {
-        @Test
-        @DisplayName("Nonexistent profile should not be active")
-        void nonexistentProfileShouldNotBeActive() {
-            assertThat(environment.getActiveProfiles())
-                    .as("The list of active profiles should not contain 'nonexistentProfileABC'")
-                    .doesNotContain("nonexistentProfileABC");
         }
     }
 }

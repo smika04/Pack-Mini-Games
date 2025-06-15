@@ -2,10 +2,11 @@ services:
   postgres:
     image: 'postgres:latest'
     environment:
-      # Залежно від ACTIVE_SPRING_PROFILE, вибираємо відповідну БД
-      - 'POSTGRES_DB=${DB_${ACTIVE_SPRING_PROFILE}_NAME}'
-      - 'POSTGRES_PASSWORD=${DB_${ACTIVE_SPRING_PROFILE}_PASSWORD}'
-      - 'POSTGRES_USER=${DB_${ACTIVE_SPRING_PROFILE}_USERNAME}'
+      # Змініть цей блок на формат ключ-значення (мапа)
+      ACTIVE_SPRING_PROFILE: ${ACTIVE_SPRING_PROFILE} # Тепер це мапа!
+      POSTGRES_DB: ${DB_${ACTIVE_SPRING_PROFILE}_NAME}
+      POSTGRES_PASSWORD: ${DB_${ACTIVE_SPRING_PROFILE}_PASSWORD}
+      POSTGRES_USER: ${DB_${ACTIVE_SPRING_PROFILE}_USERNAME}
     ports:
       - '5432:5432'
     volumes:
@@ -14,9 +15,8 @@ services:
   app:
     build: .
     environment:
-      # Профіль Spring Boot, який буде активований
-      SPRING_PROFILES_ACTIVE: ${ACTIVE_SPRING_PROFILE} # <--- Ось тут магія!
-      # Змінні для підключення до БД, залежать від ACTIVE_SPRING_PROFILE
+      ACTIVE_SPRING_PROFILE: ${ACTIVE_SPRING_PROFILE}
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_SPRING_PROFILE}
       DB_HOST: ${DB_${ACTIVE_SPRING_PROFILE}_HOST}
       DB_NAME: ${DB_${ACTIVE_SPRING_PROFILE}_NAME}
       DB_USERNAME: ${DB_${ACTIVE_SPRING_PROFILE}_USERNAME}
@@ -28,3 +28,23 @@ services:
 
 volumes:
   postgres_data:
+
+    $env:CURRENT_DB_HOST="postgres"
+    $env:CURRENT_DB_NAME=$env:DB_DEV_NAME
+    $env:CURRENT_DB_USERNAME=$env:DB_DEV_USERNAME
+    $env:CURRENT_DB_PASSWORD=$env:DB_DEV_PASSWORD
+    } elseif ($env:ACTIVE_SPRING_PROFILE -eq "prod") {
+    $env:CURRENT_DB_HOST="postgres"
+    $env:CURRENT_DB_NAME=$env:DB_PROD_NAME
+    $env:CURRENT_DB_USERNAME=$env:DB_PROD_USERNAME
+    $env:CURRENT_DB_PASSWORD=$env:DB_PROD_PASSWORD
+    } else {
+  
+    $env:CURRENT_DB_HOST="postgres"
+    $env:CURRENT_DB_NAME=$env:DB_DEV_NAME
+    $env:CURRENT_DB_USERNAME=$env:DB_DEV_USERNAME
+    $env:CURRENT_DB_PASSWORD=$env:DB_DEV_PASSWORD
+}
+
+  # Запускаємо Docker Compose
+  docker compose up

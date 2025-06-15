@@ -31,6 +31,6 @@ public class GameEntity
     private List<RecordEntity> records = new ArrayList<>();
 
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private GameIcon gameIcon;
+    private GameIconEntity gameIcon;
 
 }

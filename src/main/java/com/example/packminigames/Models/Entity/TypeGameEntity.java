@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "game_types")
+@Table(name = "type_games")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

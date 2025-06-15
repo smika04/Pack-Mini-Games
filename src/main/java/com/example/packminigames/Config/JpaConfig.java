@@ -2,55 +2,55 @@ package com.example.packminigames.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
-//@Configuration
-//@EnableTransactionManagement
+@Configuration
+@EnableTransactionManagement
 public class JpaConfig
 {
-    // Spring Boot зазвичай автоматично створює DataSource.
-    // Якщо у вас кілька джерел даних або ви хочете налаштувати його вручну:
-    // @Bean
-    // public DataSource dataSource() {
-    //     DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    //     dataSource.setDriverClassName("org.postgresql.Driver");
-    //     dataSource.setUrl("jdbc:postgresql://localhost:5432/your_database");
-    //     dataSource.setUsername("your_user");
-    //     dataSource.setPassword("your_password");
-    //     return dataSource;
-    // }
+    // Якщо ви хочете, щоб Spring Boot автоконфігурував DataSource, видаліть цей метод.
+    // В іншому випадку, вам потрібно повністю його налаштувати тут.
+    // Приклад повного налаштування вручну (НЕ РЕКОМЕНДУЄТЬСЯ для Spring Boot):
+    /*
+    @Bean
+    public DataSource dataSource(@Value("${spring.datasource.url}") String url,
+                                 @Value("${spring.datasource.username}") String username,
+                                 @Value("${spring.datasource.password}") String password) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.h2.Driver"); // або інший драйвер
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+    */
 
-    // Конфігурація EntityManagerFactory - відповідає за створення EntityManager
-    //@Bean
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource); // Використовуємо автоматично конфігурований DataSource
-        em.setPackagesToScan("com.example.packminigames.Models.Entity"); // Вказуємо, де шукати ваші @Entity класи
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("com/example/packminigames/Models/Entity");
 
-        // Використовуємо стандартний HibernateJpaVendorAdapter
-        // Spring Boot зазвичай робить це за вас
-        // JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        // em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
-        // Властивості Hibernate (не обов'язково, якщо використовуєте application.properties)
+        // Якщо вам потрібні додаткові властивості Hibernate/JPA, додайте їх так:
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "update"); // auto, create, create-drop, validate, none
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect"); // Вкажіть діалект вашої БД
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.format_sql", "true");
+        // properties.setProperty("hibernate.hbm2ddl.auto", "update"); // Краще через application.properties
+        // properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect"); // Краще через application.properties
         em.setJpaProperties(properties);
 
         return em;
     }
 
-    // Конфігурація TransactionManager - керує транзакціями бази даних
-    //@Bean
+    @Bean
     public PlatformTransactionManager transactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory.getObject());
