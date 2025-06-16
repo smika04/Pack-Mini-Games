@@ -12,15 +12,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = PackMiniGamesApplication.class)
 @DisplayName("Profiles really exist and can be activated")
-class ProfileExistenceVerificationIT {
-
-    @Autowired
-    private Environment environment;
+public class ProfileExistenceVerificationIT {
 
     @Nested
     @DisplayName("Checking 'dev' profile")
     @ActiveProfiles("dev")
-    class DevProfileChecks {
+    class DevProfileChecks
+    {
+        @Autowired
+        private Environment environment;
+
         @Test
         @DisplayName("'dev' profile must be active")
         void devProfileShouldBeActive() {
@@ -41,7 +42,11 @@ class ProfileExistenceVerificationIT {
     @Nested
     @DisplayName("Checking 'prod' profile")
     @ActiveProfiles("prod")
-    class ProdProfileChecks {
+    class ProdProfileChecks
+    {
+        @Autowired
+        private Environment environment;
+
         @Test
         @DisplayName("'prod' profile must be active")
         void prodProfileShouldBeActive() {
@@ -62,7 +67,11 @@ class ProfileExistenceVerificationIT {
     @Nested
     @DisplayName("Checking 'test' profile")
     @ActiveProfiles("test")
-    class TestProfileChecks {
+    class TestProfileChecks
+    {
+        @Autowired
+        private Environment environment;
+
         @Test
         @DisplayName("'test' profile must be active")
         void testProfileShouldBeActive() {

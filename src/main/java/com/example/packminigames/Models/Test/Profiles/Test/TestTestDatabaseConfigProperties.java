@@ -1,5 +1,6 @@
-package com.example.packminigames.Models.Domain;
+package com.example.packminigames.Models.Test.Profiles.Test;
 
+import com.example.packminigames.Models.Test.TestDatabaseConfigProperties;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

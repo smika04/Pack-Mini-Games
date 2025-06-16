@@ -2,33 +2,18 @@ package com.example.packminigames.Profiles.CheckDatabaseConfiguration;
 
 import com.example.packminigames.Models.Domain.DatabaseProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-// Цей імпорт більше не потрібен, оскільки EnableAutoConfiguration не використовується як атрибут
-// import org.springframework.boot.autoconfigure.EnableAutoConfiguration; // Цей рядок потрібно видалити
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-// Цей імпорт і анотація більше не потрібні
-// import org.springframework.test.context.ContextConfiguration;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest(classes = AbstractDatabaseConfigIT.MinimalTestConfig.class)
-// Цей блок @EnableAutoConfiguration(exclude = { ... }) потрібно повністю видалити.
-// Він суперечить меті @SpringBootTest(classes = ...), яка полягає в завантаженні тільки вказаних класів.
-// @EnableAutoConfiguration(exclude = {
-//         DataSourceAutoConfiguration.class,
-//         HibernateJpaAutoConfiguration.class,
-//         FlywayAutoConfiguration.class
-// })
 public class AbstractDatabaseConfigIT
 {
-    @TestConfiguration // Забезпечує, що ця конфігурація активна лише для цього тестового класу
-    @EnableConfigurationProperties(DatabaseProperties.class) // Включає обробку @ConfigurationProperties для DatabaseProperties
+    @TestConfiguration
+    @EnableConfigurationProperties(DatabaseProperties.class)
     static class MinimalTestConfig {
         // Тут не потрібні додаткові біни чи сканування компонентів,
         // оскільки DatabaseProperties вже є @Component і буде знайдено через @EnableConfigurationProperties

@@ -1,6 +1,6 @@
 package com.example.packminigames.Profiles.CheckDatabaseConfiguration.Dev;
 
-import com.example.packminigames.Models.Domain.DevTestDatabaseConfigProperties;
+import com.example.packminigames.Models.Test.Profiles.Dev.DevTestDatabaseConfigProperties;
 import com.example.packminigames.PackMiniGamesApplication;
 import com.example.packminigames.Profiles.CheckDatabaseConfiguration.AbstractDatabaseConfigIT;
 import org.junit.jupiter.api.DisplayName;

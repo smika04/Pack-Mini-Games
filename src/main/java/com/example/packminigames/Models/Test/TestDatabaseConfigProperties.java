@@ -1,4 +1,4 @@
-package com.example.packminigames.Models.Domain;
+package com.example.packminigames.Models.Test;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
