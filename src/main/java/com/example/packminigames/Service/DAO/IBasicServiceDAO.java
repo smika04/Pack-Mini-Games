@@ -11,5 +11,4 @@ public interface IBasicServiceDAO<D>
     D add(D dto);
     D update(D dto);
     void delete(Long id);
-
 }

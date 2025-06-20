@@ -5,12 +5,8 @@ import com.example.packminigames.Models.Entity.GameEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "jakarta")
-public interface IGameMapper {
+@Mapper(componentModel = "spring")
+public interface IGameMapper extends IBasicMapper<GameDTO, GameEntity>
+{
 
-    IGameMapper INSTANCE = Mappers.getMapper(IGameMapper.class);
-
-    GameDTO toDTO(GameEntity entity);
-
-    GameEntity toEntity(GameDTO dto);
 }
