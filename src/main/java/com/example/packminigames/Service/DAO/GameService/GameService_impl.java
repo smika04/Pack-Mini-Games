@@ -1,14 +1,12 @@
 package com.example.packminigames.Service.DAO.GameService;
 
 import com.example.packminigames.Models.DTO.GameDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class GameService_impl implements IGameService
 {
     @Override

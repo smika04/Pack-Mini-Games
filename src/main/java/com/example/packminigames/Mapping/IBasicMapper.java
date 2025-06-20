@@ -6,6 +6,8 @@ public interface IBasicMapper<DTO, Entity>
 {
     DTO toDto(Entity entity);
     Entity toEntity(DTO dto);
-    List<DTO> toDtoList(Entity entity);
-    List<Entity> toEntityList(DTO dto);
+
+    List<DTO> toDtoList(List<Entity> entities);
+    List<Entity> toEntityList(List<DTO> dtos);
+
 }

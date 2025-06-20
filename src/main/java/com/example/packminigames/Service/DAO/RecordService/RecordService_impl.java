@@ -1,13 +1,12 @@
 package com.example.packminigames.Service.DAO.RecordService;
 
-import com.example.packminigames.Models.DTO.GameDTO;
 import com.example.packminigames.Models.DTO.RecordDTO;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Service
 public class RecordService_impl implements IRecordService
 {
     @Override
