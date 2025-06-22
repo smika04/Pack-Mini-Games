@@ -12,16 +12,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes = AbstractDatabaseConfigIT.MinimalTestConfig.class)
 public class AbstractDatabaseConfigIT
 {
+    @Autowired
+    protected DatabaseProperties databaseProperties;
+
     @TestConfiguration
     @EnableConfigurationProperties(DatabaseProperties.class)
     static class MinimalTestConfig {
         // Тут не потрібні додаткові біни чи сканування компонентів,
         // оскільки DatabaseProperties вже є @Component і буде знайдено через @EnableConfigurationProperties
     }
-
-
-    @Autowired
-    protected DatabaseProperties databaseProperties;
 
     protected void assertDatabaseProperties(String expectedUrl,String expectedHost, String expectedName, String expectedUsername, String expectedPassword, String expectedDriverClassName)
     {

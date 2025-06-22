@@ -9,5 +9,4 @@ public interface IBasicMapper<DTO, Entity>
 
     List<DTO> toDtoList(List<Entity> entities);
     List<Entity> toEntityList(List<DTO> dtos);
-
 }
