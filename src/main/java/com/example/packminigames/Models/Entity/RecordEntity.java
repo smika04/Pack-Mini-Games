@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "records")
@@ -21,7 +22,7 @@ public class RecordEntity
     private Long id;
 
     private int score;
-    private Duration time;
+    private LocalDateTime datePlayed;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id", nullable = false)

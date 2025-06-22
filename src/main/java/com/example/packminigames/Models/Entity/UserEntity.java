@@ -27,6 +27,7 @@ public class UserEntity
 
     private LocalDate birthday;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RecordEntity> records = new ArrayList<>();
 

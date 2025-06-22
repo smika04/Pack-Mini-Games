@@ -29,10 +29,10 @@ public class GameEntity
     @JoinColumn(name = "type_game_id", nullable = false)
     private TypeGameEntity typeGame;
 
+    @Builder.Default
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RecordEntity> records = new ArrayList<>();
 
     @OneToOne(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private GameIconEntity gameIcon;
-
 }

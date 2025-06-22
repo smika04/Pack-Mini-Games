@@ -23,6 +23,7 @@ public class TypeGameEntity
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Builder.Default
     @OneToMany(mappedBy = "typeGame", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<GameEntity> games = new ArrayList<>();
 }

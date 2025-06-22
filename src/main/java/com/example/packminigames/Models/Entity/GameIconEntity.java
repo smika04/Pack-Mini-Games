@@ -36,6 +36,5 @@ public class GameIconEntity
     // unique = true гарантує, що одна іконка може бути пов'язана лише з однією грою
     // nullable = false означає, що кожна іконка повинна бути прив'язана до гри
     private GameEntity game;
-
 }
 

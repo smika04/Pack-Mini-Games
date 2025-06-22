@@ -8,7 +8,7 @@ import com.example.packminigames.Models.Entity.RecordEntity;
 import com.example.packminigames.Models.Entity.UserEntity;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +23,8 @@ public class RecordEntityMapperTest extends AbstractEntityMapperTest<IRecordMapp
     private RecordDTO createRecordDTO() {
         return RecordDTO.builder()
                 .id(1L)
-                .gameId(101)
-                .userId(201)
+                .gameId(101L)
+                .userId(201L)
                 .score(1500)
                 .datePlayed(new Date()).build();
     }
@@ -34,7 +34,7 @@ public class RecordEntityMapperTest extends AbstractEntityMapperTest<IRecordMapp
         return RecordEntity.builder()
                 .id(1L)
                 .score(1500)
-                .time(Duration.ofMinutes(5))
+                .datePlayed(LocalDateTime.now())
                 .game(GameEntity.builder().id(101L).build())
                 .user(UserEntity.builder().id(201L).build()).build();
     }
@@ -51,7 +51,7 @@ public class RecordEntityMapperTest extends AbstractEntityMapperTest<IRecordMapp
 
         assertThat(entity.getGame()).isNull();
         assertThat(entity.getUser()).isNull();
-        assertThat(entity.getTime()).isNull();
+        assertThat(entity.getDatePlayed()).isNull();
     }
 
     @Test
@@ -75,7 +75,7 @@ public class RecordEntityMapperTest extends AbstractEntityMapperTest<IRecordMapp
     {
         List<RecordDTO> dtoList = Arrays.asList(createRecordDTO(), createRecordDTO());
         dtoList.get(1).setId(2L);
-        dtoList.get(1).setGameId(102);
+        dtoList.get(1).setGameId(102L);
 
         List<RecordEntity> entityList = mapper.toEntityList(dtoList);
 

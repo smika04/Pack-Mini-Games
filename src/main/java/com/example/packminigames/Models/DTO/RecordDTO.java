@@ -14,8 +14,8 @@ import java.util.Date;
 public class RecordDTO
 {
     private Long id;
-    private int gameId;
-    private int userId;
+    private Long gameId;
+    private Long userId;
     private int score;
     private Date datePlayed;
 }

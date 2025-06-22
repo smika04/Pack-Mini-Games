@@ -6,9 +6,9 @@ import java.util.Optional;
 
 public interface IBasicServiceDAO<D>
 {
-    List<D> getAll();
-    Optional<D> getById(Long id);
-    D add(D dto);
-    D update(D dto);
-    void delete(Long id);
+    List<D> GetAll();
+    Optional<D> GetById(Long id);
+    D Add(D dto);
+    D Update(D dto);
+    void Delete(Long id);
 }

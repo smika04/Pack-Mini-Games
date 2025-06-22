@@ -1,39 +1,62 @@
 package com.example.packminigames.Service.DAO.TypeGameService;
 
+import com.example.packminigames.Mapping.DB.ITypeGameMapper;
 import com.example.packminigames.Models.DTO.TypeGameDTO;
+import com.example.packminigames.Models.Entity.TypeGameEntity;
+import com.example.packminigames.Repository.TypeGameRepository.ITypeGameRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TypeGame_impl implements ITypeGameService
 {
+    private final ITypeGameRepository typeGameRepository;
+    private final ITypeGameMapper typeGameMapper;
+
+
     @Override
-    public List<TypeGameDTO> getAll() {
-        return null; // Заглушка
+    public List<TypeGameDTO> GetAll() {
+        List<TypeGameEntity> typeGameEntities = typeGameRepository.findAll();
+        return typeGameMapper.toDtoList(typeGameEntities);
+
     }
 
     @Override
-    public Optional<TypeGameDTO> getById(Long id)
-    {
-        return Optional.empty(); // Заглушка
+    public Optional<TypeGameDTO> GetById(Long id) {
+        return typeGameRepository.findById(id).map(typeGameMapper::toDto);
     }
 
     @Override
-    public TypeGameDTO add(TypeGameDTO dto)
+    public TypeGameDTO Add(TypeGameDTO dto)
     {
-        return null; // Заглушка
+        TypeGameEntity typeGameEntity = typeGameMapper.toEntity(dto);
+        TypeGameEntity savedEntity = typeGameRepository.save(typeGameEntity);
+        return typeGameMapper.toDto(savedEntity);
+
     }
 
     @Override
-    public TypeGameDTO update(TypeGameDTO dto)
+    public TypeGameDTO Update(TypeGameDTO dto)
     {
-        return null; // Заглушка
+        if (dto.getId() == null) {
+            throw new IllegalArgumentException("ID must not be null for update operation.");
+        }
+
+        TypeGameEntity existingTypeGame = typeGameRepository.findById(dto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("TypeGame with ID " + dto.getId() + " not found for update."));
+
+        typeGameMapper.updateEntityFromDto(dto, existingTypeGame);
+
+        TypeGameEntity updatedEntity = typeGameRepository.save(existingTypeGame);
+
+        return typeGameMapper.toDto(updatedEntity);
     }
 
     @Override
-    public void delete(Long id)
-    {
-    }
+    public void Delete(Long id) { typeGameRepository.deleteById(id);}
 }
