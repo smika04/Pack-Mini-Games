@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface IGameRepository extends IBaseRepository<GameEntity, Long>
 {
-    Optional<GameEntity> findByName(String name);
+    Optional<GameEntity> findByTitle(String title);
 }

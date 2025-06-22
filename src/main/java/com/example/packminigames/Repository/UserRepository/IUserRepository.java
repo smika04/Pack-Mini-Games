@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface IUserRepository extends IBaseRepository<UserEntity, Long>
 {
-    Optional<UserEntity> findByName(String name);
+    Optional<UserEntity> findByUsername(String username);
 }

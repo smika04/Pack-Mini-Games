@@ -2,6 +2,7 @@ package com.example.packminigames.Models.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class GameEntity
 {
     @Id
@@ -20,7 +22,7 @@ public class GameEntity
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    private String title;
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
