@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class GameIconService_impl implements IGameIcon_Service
+public class GameIconService_impl implements IGameIconService
 {
     private final IGameIconRepository gameIconRepository;
     private final IGameRepository gameRepository;

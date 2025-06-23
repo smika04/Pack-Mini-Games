@@ -55,9 +55,10 @@ public class GameService_impl implements IGameService
 
             GameEntity updatedEntity = gameRepository.save(existingEntity);
 
-
+            // 4. Перетворюємо оновлену сутність назад на DTO і повертаємо
             return gameMapper.toDto(updatedEntity);
         } else {
+            // Якщо сутність не знайдена, кидаємо виняток
             throw new EntityNotFoundException("Game with ID " + dto.getId() + " not found for update.");
         }
     }
