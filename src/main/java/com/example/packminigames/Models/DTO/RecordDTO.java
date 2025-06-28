@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -17,5 +18,5 @@ public class RecordDTO
     private Long gameId;
     private Long userId;
     private int score;
-    private Date datePlayed;
+    private LocalDateTime datePlayed;
 }

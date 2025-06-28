@@ -26,7 +26,7 @@ public class RecordEntityMapperTest extends AbstractEntityMapperTest<IRecordMapp
                 .gameId(101L)
                 .userId(201L)
                 .score(1500)
-                .datePlayed(new Date()).build();
+                .datePlayed(LocalDateTime.now()).build();
     }
 
     private RecordEntity createRecordEntity()
@@ -51,7 +51,7 @@ public class RecordEntityMapperTest extends AbstractEntityMapperTest<IRecordMapp
 
         assertThat(entity.getGame()).isNull();
         assertThat(entity.getUser()).isNull();
-        assertThat(entity.getDatePlayed()).isNull();
+        assertThat(entity.getDatePlayed()).isNotNull(); //Always must time now
     }
 
     @Test
@@ -67,7 +67,7 @@ public class RecordEntityMapperTest extends AbstractEntityMapperTest<IRecordMapp
         assertThat(dto.getGameId()).isEqualTo(entity.getGame().getId().intValue());
         assertThat(dto.getUserId()).isEqualTo(entity.getUser().getId().intValue());
 
-        assertThat(dto.getDatePlayed()).isNull();
+        assertThat(dto.getDatePlayed()).isNotNull(); //Always must time now
     }
 
     @Test
