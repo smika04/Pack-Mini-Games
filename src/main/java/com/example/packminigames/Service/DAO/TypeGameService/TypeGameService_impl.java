@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TypeGame_impl implements ITypeGameService
+public class TypeGameService_impl implements ITypeGameService
 {
     private final ITypeGameRepository typeGameRepository;
     private final ITypeGameMapper typeGameMapper;
@@ -58,5 +58,12 @@ public class TypeGame_impl implements ITypeGameService
     }
 
     @Override
-    public void Delete(Long id) { typeGameRepository.deleteById(id);}
+    public void Delete(Long id)
+    {
+        if (!typeGameRepository.existsById(id)) {
+            throw new RuntimeException("Сутність з ID " + id + " не знайдена.");
+        }
+
+        typeGameRepository.deleteById(id);
+    }
 }

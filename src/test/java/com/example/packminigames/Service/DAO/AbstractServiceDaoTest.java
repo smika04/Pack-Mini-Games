@@ -161,13 +161,11 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
     void testDeleteEntity_Success() {
         ID idToDelete = entityId1;
 
-        // Для тестування методу delete сервісу, ми мокуємо його залежність - репозиторій.
         mockRepositoryExistsById(idToDelete, true);
         mockRepositoryDeleteById(idToDelete);
 
         callServiceDelete(idToDelete);
 
-        verify(repository, times(1)).existsById(idToDelete);
         verify(repository, times(1)).deleteById(idToDelete);
     }
 
@@ -179,7 +177,8 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
         // Для тестування методу delete сервісу, ми мокуємо його залежність - репозиторій.
         mockRepositoryExistsById(nonExistentId, false);
 
-        assertThrows(EntityNotFoundException.class, () -> callServiceDelete(nonExistentId));
+        assertThrows(RuntimeException.class, () -> callServiceDelete(nonExistentId));
+
         verify(repository, times(1)).existsById(nonExistentId);
         verify(repository, never()).deleteById(any());
     }

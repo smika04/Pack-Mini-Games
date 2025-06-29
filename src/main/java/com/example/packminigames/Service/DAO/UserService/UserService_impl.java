@@ -57,5 +57,12 @@ public class UserService_impl implements IUserService
     }
 
     @Override
-    public void Delete(Long id) {userRepository.deleteById(id);}
+    public void Delete(Long id)
+    {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("Сутність з ID " + id + " не знайдена.");
+        }
+
+        userRepository.deleteById(id);
+    }
 }

@@ -95,9 +95,7 @@ public class UserServiceDaoTest extends AbstractServiceDaoTest<IUserRepository,I
     }
 
     @Override
-    protected Long getEntityId(UserEntity entity) {
-        return entity.getId();
-    }
+    protected Long getEntityId(UserEntity entity) {return entity.getId();}
 
     @Override
     protected UserEntity createNewEntityForCreation()
