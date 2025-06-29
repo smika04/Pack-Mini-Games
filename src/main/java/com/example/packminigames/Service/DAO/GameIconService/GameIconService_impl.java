@@ -74,5 +74,11 @@ public class GameIconService_impl implements IGameIconService
     }
 
     @Override
-    public void Delete(Long id) {gameIconRepository.deleteById(id);}
+    public void Delete(Long id)
+    {
+        if (!gameIconRepository.existsById(id)) {
+            throw new RuntimeException("Сутність з ID " + id + " не знайдена.");
+        }
+        gameIconRepository.deleteById(id);
+    }
 }

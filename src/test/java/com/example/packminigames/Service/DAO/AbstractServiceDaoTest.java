@@ -75,8 +75,6 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
     }
 
 
-    // --- Спільні тестові методи (реалізовані тут) ---
-
     @Test
     @DisplayName("Should retrieve an entity by ID successfully")
     void testGetEntityById_Success() {
@@ -103,15 +101,12 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
 
     @Test
     @DisplayName("Should create a new entity successfully")
-    void testCreateEntity_Success() {
+    void testCreateEntity_Success()
+    {
         E newEntity = createNewEntityForCreation();
         E expectedSavedEntity = entityModel1;
 
-        // ВАЖЛИВО: Оскільки сервіс використовує маппер, об'єкт, який фактично буде переданий в save(),
-        // може відрізнятися від newEntity за посиланням, навіть якщо його вміст ідентичний.
-        // Залежно від реалізації equals()/hashCode() в Entity, це verify може потребувати any() або eq().
-        // Наразі залишаємо newEntity, але будьте готові до збою верифікації за посиланням.
-        mockRepositorySave(newEntity, expectedSavedEntity); // Мокуємо, що save() повертає expectedSavedEntity
+        mockRepositorySave(newEntity, expectedSavedEntity);
 
         E createdEntity = callServiceCreate(newEntity);
 
@@ -131,15 +126,13 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
         E expectedUpdatedEntity = entityModel1;
 
         mockRepositoryFindById(entityId1, Optional.of(entityModel1));
-        // Див. коментарі до mockRepositorySave в testCreateEntity_Success
-        mockRepositorySave(entityModel1, expectedUpdatedEntity); // Мокуємо, що save() повертає expectedUpdatedEntity
+        mockRepositorySave(entityModel1, expectedUpdatedEntity);
 
         E updatedEntity = callServiceUpdate(entityId1, updateDetails);
 
         assertNotNull(updatedEntity, "Updated entity should not be null");
         assertEquals(expectedUpdatedEntity, updatedEntity, "Updated entity should match the expected updated entity");
         verify(repository, times(1)).findById(entityId1);
-        // Це verify також може дати збій через перетворення DTO -> Entity в сервісі.
         verify(repository, times(1)).save(entityModel1);
     }
 
