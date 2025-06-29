@@ -2,22 +2,13 @@ package com.example.packminigames.Mapping.DB.Game;
 
 import com.example.packminigames.Mapping.DB.AbstractEntityMapperTest;
 import com.example.packminigames.Mapping.DB.IGameMapper;
-import com.example.packminigames.Mapping.DB.IRecordMapper;
 import com.example.packminigames.Models.DTO.GameDTO;
-import com.example.packminigames.Models.DTO.GameIconDTO;
-import com.example.packminigames.Models.DTO.RecordDTO;
-import com.example.packminigames.Models.DTO.TypeGameDTO;
 import com.example.packminigames.Models.Entity.GameEntity;
 import com.example.packminigames.Models.Entity.GameIconEntity;
-import com.example.packminigames.Models.Entity.RecordEntity;
 import com.example.packminigames.Models.Entity.TypeGameEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -85,7 +76,7 @@ public class GameEntityMapperTest extends AbstractEntityMapperTest<IGameMapper, 
 
         assertArrayEquals(entity.getGameIcon().getIconData(), dto.getIconData(), "GameIconEntity.data should be mapped to iconData");
 
-        assertNull(dto.getRecords(), "Records list should be null in DTO as it is not mapped");
+        assertTrue(dto.getRecords().isEmpty(), "Records list should be empty as it is not mapped");
     }
 
     @Test
