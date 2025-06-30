@@ -44,4 +44,9 @@ public class GameMVC_Controller_impl implements IGameMVC_Controller{
     public String Delete(Long id, RedirectAttributes redirectAttributes) {
         return "";
     }
+
+    @Override
+    public String DeletePost(Long id, RedirectAttributes redirectAttributes) {
+        return "";
+    }
 }

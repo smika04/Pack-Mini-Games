@@ -16,4 +16,5 @@ public interface IMVC_ControllerDAO<D>
     String ShowEdit(@PathVariable Long id, Model model);
     String Update(@PathVariable Long id, @ModelAttribute D dto, RedirectAttributes redirectAttributes);
     String Delete(@PathVariable Long id, RedirectAttributes redirectAttributes);
+    String DeletePost(@PathVariable Long id, RedirectAttributes redirectAttributes);
 }

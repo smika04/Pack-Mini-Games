@@ -43,4 +43,9 @@ public class RecordMVC_Controller_impl implements IRecordMVC_Controller{
     public String Delete(Long id, RedirectAttributes redirectAttributes) {
         return "";
     }
+
+    @Override
+    public String DeletePost(Long id, RedirectAttributes redirectAttributes) {
+        return "";
+    }
 }

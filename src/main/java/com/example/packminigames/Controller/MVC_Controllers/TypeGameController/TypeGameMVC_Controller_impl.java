@@ -43,4 +43,9 @@ public class TypeGameMVC_Controller_impl implements ITypeGameMVC_Controller{
     public String Delete(Long id, RedirectAttributes redirectAttributes) {
         return "";
     }
+
+    @Override
+    public String DeletePost(Long id, RedirectAttributes redirectAttributes) {
+        return "";
+    }
 }
