@@ -64,5 +64,11 @@ public class GameService_impl implements IGameService
     }
 
     @Override
-    public void Delete(Long id) {gameRepository.deleteById(id);}
+    public void Delete(Long id)
+    {
+        if (!gameRepository.existsById(id)) {
+            throw new RuntimeException("Сутність з ID " + id + " не знайдена.");
+        }
+        gameRepository.deleteById(id);
+    }
 }

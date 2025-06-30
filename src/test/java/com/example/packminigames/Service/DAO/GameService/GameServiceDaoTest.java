@@ -5,25 +5,24 @@ import com.example.packminigames.Models.DTO.GameDTO;
 import com.example.packminigames.Models.Entity.GameEntity;
 import com.example.packminigames.Models.Entity.GameIconEntity;
 import com.example.packminigames.Models.Entity.TypeGameEntity;
-import com.example.packminigames.PackMiniGamesApplication;
 import com.example.packminigames.Repository.GameRepository.IGameRepository;
 import com.example.packminigames.Service.DAO.AbstractServiceDaoTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = PackMiniGamesApplication.class)
-@ActiveProfiles("test")
 @DisplayName("GameService CRUD Operations Testing")
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class GameServiceDaoTest extends AbstractServiceDaoTest<IGameRepository,IGameService, GameEntity,Long, GameDTO> {
     @Mock
     private IGameMapper gameMapper;
@@ -44,40 +43,69 @@ public class GameServiceDaoTest extends AbstractServiceDaoTest<IGameRepository,I
                 .thenAnswer(invocation -> {
                     GameEntity entity = invocation.getArgument(0);
                     if (entity == null) return null;
-                    return GameDTO.builder()
+                    GameDTO.GameDTOBuilder dtoBuilder = GameDTO.builder()
                             .id(entity.getId())
                             .title(entity.getTitle())
-                            .description(entity.getDescription())
-                            .typeGameName(String.valueOf(entity.getTypeGame() != null ? entity.getTypeGame().getId() : null))
-                            .build();
+                            .description(entity.getDescription());
+
+                    if (entity.getTypeGame() != null) {
+                        dtoBuilder.typeGameName(String.valueOf(entity.getTypeGame().getId()));
+                    }
+
+                    if (entity.getGameIcon() != null) {
+                        dtoBuilder.iconData(new byte[]{1});
+                    }
+
+                    return dtoBuilder.build();
                 });
 
         when(gameMapper.toEntity(any(GameDTO.class)))
                 .thenAnswer(invocation -> {
                     GameDTO dto = invocation.getArgument(0);
                     if (dto == null) return null;
-                    GameEntity entity = GameEntity.builder()
+                    GameEntity.GameEntityBuilder entityBuilder = GameEntity.builder()
                             .id(dto.getId())
                             .title(dto.getTitle())
-                            .description(dto.getDescription())
-                            .build();
+                            .description(dto.getDescription());
+
                     if (dto.getTypeGameName() != null) {
-                        entity.setTypeGame(TypeGameEntity.builder().id(Long.valueOf(dto.getTypeGameName())).build());
+                        entityBuilder.typeGame(TypeGameEntity.builder().id(Long.valueOf(dto.getTypeGameName())).build());
                     }
-                    return entity;
+
+                    if (dto.getIconData() != null) {
+                        Long gameIconId = null;
+                        if (dto.getId() != null) {
+                            if (dto.getId().equals(1L)) gameIconId = 20L;
+                            else if (dto.getId().equals(2L)) gameIconId = 21L;
+                        }
+                        else if (dto.getTitle() != null && "New Game Title".equals(dto.getTitle())) {
+                            gameIconId = 22L;
+                        } else if (dto.getTitle() != null && "Updated Game Title".equals(dto.getTitle())) {
+                            gameIconId = 23L;
+                        }
+                        entityBuilder.gameIcon(GameIconEntity.builder().id(Objects.requireNonNullElse(gameIconId, -1L)).build());
+                    }
+
+                    return entityBuilder.build();
                 });
 
         doAnswer(invocation -> {
-            GameDTO dto = invocation.getArgument(0);
-            GameEntity entity = invocation.getArgument(1);
-            if (dto.getTitle() != null) entity.setTitle(dto.getTitle());
-            if (dto.getDescription() != null) entity.setDescription(dto.getDescription());
-            if (dto.getTypeGameName() != null) {
-                entity.setTypeGame(TypeGameEntity.builder().id(Long.valueOf(dto.getTypeGameName())).build());
+            Long idArg = invocation.getArgument(0);
+            System.out.println("DEBUG: gameRepository.findById() викликано з ID: " + idArg);
+
+            if (idArg.equals(entityModel1.getId())) {
+                System.out.println("DEBUG: Знайдено співпадіння з entityModel1. Повертаємо Optional.of(" + entityModel1.getId() + ").");
+                return Optional.of(entityModel1);
+            } else if (idArg.equals(entityModel2.getId())) {
+                System.out.println("DEBUG: Знайдено співпадіння з entityModel2. Повертаємо Optional.of(" + entityModel2.getId() + ").");
+                return Optional.of(entityModel2);
+            } else {
+                System.out.println("DEBUG: Немає конкретного співпадіння ID. Повертаємо Optional.empty().");
+                return Optional.empty();
             }
-            return null;
-        }).when(gameMapper).updateEntityFromDto(any(GameDTO.class), any(GameEntity.class));
+        }).when(gameRepository).findById(any(Long.class));
     }
+
 
     @Override
     protected GameEntity createEntityModel1() {

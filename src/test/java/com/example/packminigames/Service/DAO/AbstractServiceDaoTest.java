@@ -18,7 +18,6 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles("test")
 @DisplayName("Abstract Service CRUD Operations Testing")
 public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S extends IBasicServiceDAO<D>, E, ID, D>
 {
@@ -163,7 +162,6 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
     void testDeleteEntity_NotFound() {
         ID nonExistentId = getNonExistentEntityId();
 
-        // Для тестування методу delete сервісу, ми мокуємо його залежність - репозиторій.
         mockRepositoryExistsById(nonExistentId, false);
 
         assertThrows(RuntimeException.class, () -> callServiceDelete(nonExistentId));
