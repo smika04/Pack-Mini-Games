@@ -19,12 +19,12 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Abstract Service CRUD Operations Testing")
-public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S extends IBasicServiceDAO<D>, E, ID, D>
+public abstract class AbstractServiceDaoTest<REPOSITORY extends JpaRepository<ENTITY, ID>,SERVICE extends IBasicServiceDAO<DTO>, ENTITY, ID, DTO>
 {
-    protected R repository;
-    protected S service;
+    protected REPOSITORY repository;
+    protected SERVICE service;
     
-    protected E entityModel1 ,entityModel2;
+    protected ENTITY entityModel1 ,entityModel2;
     protected ID entityId1 ,entityId2;
 
     @BeforeEach
@@ -38,18 +38,18 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
 
     // --- Абстрактні методи, які повинні бути реалізовані в конкретних тестових класах ---
 
-    protected abstract E createEntityModel1();
-    protected abstract E createEntityModel2();
-    protected abstract ID getEntityId(E entity);
-    protected abstract E createNewEntityForCreation();
-    protected abstract E createUpdateEntityDetails(E originalEntity);
+    protected abstract ENTITY createEntityModel1();
+    protected abstract ENTITY createEntityModel2();
+    protected abstract ID getEntityId(ENTITY entity);
+    protected abstract ENTITY createNewEntityForCreation();
+    protected abstract ENTITY createUpdateEntityDetails(ENTITY originalEntity);
     protected abstract ID getNonExistentEntityId();
 
     // --- Абстрактні методи для виклику конкретних методів сервісу (CRUD) ---
 
-    protected abstract Optional<E> callServiceFindById(ID id);
-    protected abstract E callServiceCreate(E entity);
-    protected abstract E callServiceUpdate(ID id, E entityDetails);
+    protected abstract Optional<ENTITY> callServiceFindById(ID id);
+    protected abstract ENTITY callServiceCreate(ENTITY entity);
+    protected abstract ENTITY callServiceUpdate(ID id, ENTITY entityDetails);
     protected abstract void callServiceDelete(ID id);
 
     protected abstract boolean callServiceExistsById(ID id);
@@ -57,11 +57,11 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
 
     // --- Абстрактні методи для мокування поведінки репозиторію (Mockito) ---
 
-    protected void mockRepositoryFindById(ID id, Optional<E> result) {
+    protected void mockRepositoryFindById(ID id, Optional<ENTITY> result) {
         when(repository.findById(id)).thenReturn(result);
     }
 
-    protected void mockRepositorySave(E inputEntity, E result) {
+    protected void mockRepositorySave(ENTITY inputEntity, ENTITY result) {
         when(repository.save(inputEntity)).thenReturn(result);
     }
 
@@ -79,7 +79,7 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
     void testGetEntityById_Success() {
         mockRepositoryFindById(entityId1, Optional.of(entityModel1));
 
-        Optional<E> foundEntity = callServiceFindById(entityId1);
+        Optional<ENTITY> foundEntity = callServiceFindById(entityId1);
 
         assertTrue(foundEntity.isPresent(), "Entity should be present");
         assertEquals(entityModel1, foundEntity.get(), "Found entity should match the expected entity");
@@ -92,7 +92,7 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
         ID nonExistentId = getNonExistentEntityId();
         mockRepositoryFindById(nonExistentId, Optional.empty());
 
-        Optional<E> foundEntity = callServiceFindById(nonExistentId);
+        Optional<ENTITY> foundEntity = callServiceFindById(nonExistentId);
 
         assertFalse(foundEntity.isPresent(), "Entity should not be present");
         verify(repository, times(1)).findById(nonExistentId);
@@ -102,12 +102,12 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
     @DisplayName("Should create a new entity successfully")
     void testCreateEntity_Success()
     {
-        E newEntity = createNewEntityForCreation();
-        E expectedSavedEntity = entityModel1;
+        ENTITY newEntity = createNewEntityForCreation();
+        ENTITY expectedSavedEntity = entityModel1;
 
         mockRepositorySave(newEntity, expectedSavedEntity);
 
-        E createdEntity = callServiceCreate(newEntity);
+        ENTITY createdEntity = callServiceCreate(newEntity);
 
         assertNotNull(createdEntity, "Created entity should not be null");
         assertEquals(expectedSavedEntity, createdEntity, "Created entity should match the expected saved entity");
@@ -117,13 +117,13 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
     @Test
     @DisplayName("Should update an existing entity successfully")
     void testUpdateEntity_Success() {
-        E updateDetails = createUpdateEntityDetails(entityModel1);
-        E expectedUpdatedEntity = entityModel1;
+        ENTITY updateDetails = createUpdateEntityDetails(entityModel1);
+        ENTITY expectedUpdatedEntity = entityModel1;
 
         mockRepositoryFindById(entityId1, Optional.of(entityModel1));
         mockRepositorySave(entityModel1, expectedUpdatedEntity);
 
-        E updatedEntity = callServiceUpdate(entityId1, updateDetails);
+        ENTITY updatedEntity = callServiceUpdate(entityId1, updateDetails);
 
         assertNotNull(updatedEntity, "Updated entity should not be null");
         assertEquals(expectedUpdatedEntity, updatedEntity, "Updated entity should match the expected updated entity");
@@ -135,7 +135,7 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
     @DisplayName("Should throw EntityNotFoundException when updating a non-existent entity")
     void testUpdateEntity_NotFound() {
         ID nonExistentId = getNonExistentEntityId();
-        E updateDetails = createUpdateEntityDetails(null);
+        ENTITY updateDetails = createUpdateEntityDetails(null);
 
         mockRepositoryFindById(nonExistentId, Optional.empty());
 

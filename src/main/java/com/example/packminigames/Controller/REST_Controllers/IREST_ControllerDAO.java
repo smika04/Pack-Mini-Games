@@ -3,11 +3,11 @@ package com.example.packminigames.Controller.REST_Controllers;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 
-public interface IREST_ControllerDAO<D>
+public interface IREST_ControllerDAO<DTO>
 {
-    ResponseEntity<D> create(D dto);
-    ResponseEntity<D> getById(Long id);
-    ResponseEntity<List<D>> getAll();
-    ResponseEntity<D> update(Long id,D dto);
+    ResponseEntity<DTO> create(DTO dto);
+    ResponseEntity<DTO> getById(Long id);
+    ResponseEntity<List<DTO>> getAll();
+    ResponseEntity<DTO> update(Long id,DTO dto);
     ResponseEntity <Void> delete(Long id);
 }
