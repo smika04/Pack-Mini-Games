@@ -1,5 +1,6 @@
 package com.example.packminigames;
 
+import com.example.packminigames.Controllers.AllControllersTests;
 import com.example.packminigames.Mapping.CheckAllMappers;
 import com.example.packminigames.Profiles.CheckAllProfilesGroup;
 import com.example.packminigames.Profiles.CheckDatabaseConfiguration.AllDatabaseIntegrationTestsSuite;
@@ -17,7 +18,8 @@ import org.springframework.test.context.ActiveProfiles;
         AllDatabaseIntegrationTestsSuite.class,
         CheckAllProfilesGroup.class,
         CheckAllMappers.class,
-        AllServiceIntegrationTest.class
+        AllServiceIntegrationTest.class,
+        AllControllersTests.class
 })
 class PackMiniGamesApplicationTests {
 
