@@ -18,8 +18,6 @@ public class AbstractDatabaseConfigIT
     @TestConfiguration
     @EnableConfigurationProperties(DatabaseProperties.class)
     static class MinimalTestConfig {
-        // Тут не потрібні додаткові біни чи сканування компонентів,
-        // оскільки DatabaseProperties вже є @Component і буде знайдено через @EnableConfigurationProperties
     }
 
     protected void assertDatabaseProperties(String expectedUrl,String expectedHost, String expectedName, String expectedUsername, String expectedPassword, String expectedDriverClassName)

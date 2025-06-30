@@ -28,23 +28,4 @@ services:
 
 volumes:
   postgres_data:
-
-    $env:CURRENT_DB_HOST="postgres"
-    $env:CURRENT_DB_NAME=$env:DB_DEV_NAME
-    $env:CURRENT_DB_USERNAME=$env:DB_DEV_USERNAME
-    $env:CURRENT_DB_PASSWORD=$env:DB_DEV_PASSWORD
-    } elseif ($env:ACTIVE_SPRING_PROFILE -eq "prod") {
-    $env:CURRENT_DB_HOST="postgres"
-    $env:CURRENT_DB_NAME=$env:DB_PROD_NAME
-    $env:CURRENT_DB_USERNAME=$env:DB_PROD_USERNAME
-    $env:CURRENT_DB_PASSWORD=$env:DB_PROD_PASSWORD
-    } else {
-  
-    $env:CURRENT_DB_HOST="postgres"
-    $env:CURRENT_DB_NAME=$env:DB_DEV_NAME
-    $env:CURRENT_DB_USERNAME=$env:DB_DEV_USERNAME
-    $env:CURRENT_DB_PASSWORD=$env:DB_DEV_PASSWORD
 }
-
-  # Запускаємо Docker Compose
-  docker compose up
