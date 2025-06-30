@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
 public class RecordService_impl implements IRecordService
 {
     private final IRecordRepository recordRepository;
@@ -27,16 +26,16 @@ public class RecordService_impl implements IRecordService
     private final IRecordMapper recordMapper;
 
     @Override
-    public List<RecordDTO> GetAll() {
+    public List<RecordDTO> GetAll()
+    {
         List<RecordEntity> recordEntities = recordRepository.findAll();
         return recordMapper.toDtoList(recordEntities);
-
     }
 
     @Override
     public Optional<RecordDTO> GetById(Long id) {
-        return recordRepository.findById(id).map(recordMapper::toDto);
-
+        Optional<RecordEntity> record = recordRepository.findById(id);
+        return record.map(recordMapper::toDto);
     }
 
     @Override
@@ -46,6 +45,7 @@ public class RecordService_impl implements IRecordService
 
         GameEntity game = gameRepository.findById(dto.getGameId())
                 .orElseThrow(() -> new EntityNotFoundException("Game with ID " + dto.getGameId() + " not found."));
+
         UserEntity user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User with ID " + dto.getUserId() + " not found."));
 
@@ -87,5 +87,12 @@ public class RecordService_impl implements IRecordService
     }
 
     @Override
-    public void Delete(Long id) {recordRepository.deleteById(id);}
+    public void Delete(Long id)
+    {
+        if (!recordRepository.existsById(id)) {
+            throw new RuntimeException("Сутність з ID " + id + " не знайдена.");
+        }
+
+        recordRepository.deleteById(id);
+    }
 }

@@ -5,15 +5,16 @@ import com.example.packminigames.Models.DTO.RecordDTO;
 import com.example.packminigames.Models.Entity.GameEntity;
 import com.example.packminigames.Models.Entity.RecordEntity;
 import com.example.packminigames.Models.Entity.UserEntity;
-import com.example.packminigames.PackMiniGamesApplication;
+import com.example.packminigames.Repository.GameRepository.IGameRepository;
 import com.example.packminigames.Repository.RecordRepository.IRecordRepository;
+import com.example.packminigames.Repository.UserRepository.IUserRepository;
 import com.example.packminigames.Service.DAO.AbstractServiceDaoTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -22,8 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = PackMiniGamesApplication.class)
-@ActiveProfiles("test")
+@MockitoSettings(strictness = Strictness.LENIENT)
 @DisplayName("RecordService CRUD Operations Testing")
 public class RecordServiceDaoTest extends AbstractServiceDaoTest<IRecordRepository,IRecordService, RecordEntity,Long, RecordDTO> {
     @Mock
@@ -31,6 +31,13 @@ public class RecordServiceDaoTest extends AbstractServiceDaoTest<IRecordReposito
 
     @Mock
     private IRecordRepository recordRepository;
+
+    @Mock
+    private IGameRepository gameRepository;
+
+    @Mock
+    private IUserRepository userRepository;
+
 
     @InjectMocks
     private RecordService_impl recordServiceImpl;
@@ -58,6 +65,7 @@ public class RecordServiceDaoTest extends AbstractServiceDaoTest<IRecordReposito
         when(recordMapper.toEntity(any(RecordDTO.class)))
                 .thenAnswer(invocation -> {
                     RecordDTO dto = invocation.getArgument(0);
+                    System.out.println("DEBUG (RecordServiceDaoTest): recordMapper.toEntity викликано з DTO: " + (dto != null ? dto.getId() : "null")); // Додано лог
                     if (dto == null) return null;
                     RecordEntity entity = RecordEntity.builder()
                             .id(dto.getId())
@@ -90,21 +98,43 @@ public class RecordServiceDaoTest extends AbstractServiceDaoTest<IRecordReposito
             }
             return null;
         }).when(recordMapper).updateEntityFromDto(any(RecordDTO.class), any(RecordEntity.class));
+
+        when(gameRepository.findById(any(Long.class))).thenAnswer(invocation -> {
+            Long id = invocation.getArgument(0);
+            System.out.println("DEBUG (RecordServiceDaoTest): gameRepository.findById викликано з ID: " + id); // Додано лог
+            if (id == 10L) return Optional.of(GameEntity.builder().id(10L).build()); // Для entityModel1
+            if (id == 11L) return Optional.of(GameEntity.builder().id(11L).build()); // Для entityModel2
+            if (id == 12L) return Optional.of(GameEntity.builder().id(12L).build()); // Для createNewEntityForCreation
+            if (id == 13L) return Optional.of(GameEntity.builder().id(13L).build()); // Для createUpdateEntityDetails
+            return Optional.empty();
+        });
+
+        when(userRepository.findById(any(Long.class))).thenAnswer(invocation -> {
+            Long id = invocation.getArgument(0);
+            System.out.println("DEBUG (RecordServiceDaoTest): userRepository.findById викликано з ID: " + id);
+            if (id == 20L) return Optional.of(UserEntity.builder().id(20L).build());
+            if (id == 21L) return Optional.of(UserEntity.builder().id(21L).build());
+            if (id == 22L) return Optional.of(UserEntity.builder().id(22L).build());
+            if (id == 23L) return Optional.of(UserEntity.builder().id(23L).build());
+            return Optional.empty();
+        });
     }
 
     @Override
-    protected RecordEntity createEntityModel1() {
+    protected RecordEntity createEntityModel1()
+    {
         return RecordEntity.builder()
                 .id(1L)
                 .score(100)
                 .datePlayed(LocalDateTime.of(2023, 1, 1, 10, 0))
-                .game(GameEntity.builder().id(10L).build()) // Minimal game entity
-                .user(UserEntity.builder().id(20L).build()) // Minimal user entity
+                .game(GameEntity.builder().id(10L).build())
+                .user(UserEntity.builder().id(20L).build())
                 .build();
     }
 
     @Override
-    protected RecordEntity createEntityModel2() {
+    protected RecordEntity createEntityModel2()
+    {
         return RecordEntity.builder()
                 .id(2L)
                 .score(200)
@@ -120,7 +150,8 @@ public class RecordServiceDaoTest extends AbstractServiceDaoTest<IRecordReposito
     }
 
     @Override
-    protected RecordEntity createNewEntityForCreation() {
+    protected RecordEntity createNewEntityForCreation()
+    {
         return RecordEntity.builder()
                 .score(150)
                 .datePlayed(LocalDateTime.of(2023, 1, 3, 12, 0))
@@ -131,6 +162,7 @@ public class RecordServiceDaoTest extends AbstractServiceDaoTest<IRecordReposito
 
     @Override
     protected RecordEntity createUpdateEntityDetails(RecordEntity originalEntity) {
+
         RecordEntity updatedDetails = RecordEntity.builder()
                 .score(250)
                 .datePlayed(LocalDateTime.of(2023, 1, 4, 13, 0))
@@ -150,77 +182,24 @@ public class RecordServiceDaoTest extends AbstractServiceDaoTest<IRecordReposito
 
 
     @Override
-    protected Optional<RecordEntity> callServiceFindById(Long aLong) {
-        return Optional.empty();
+    protected Optional<RecordEntity> callServiceFindById(Long id) {
+        return service.GetById(id).map(recordMapper::toEntity);
     }
 
     @Override
     protected RecordEntity callServiceCreate(RecordEntity entity) {
-        return null;
+        RecordDTO dto = recordMapper.toDto(entity);
+        RecordDTO createdDto = service.Add(dto);
+        return recordMapper.toEntity(createdDto);
     }
 
     @Override
-    protected RecordEntity callServiceUpdate(Long aLong, RecordEntity entityDetails) {
-        return null;
-    }
-
-    @Override
-    protected void callServiceDelete(Long aLong) {
-
-    }
-
-    @Override
-    protected boolean callServiceExistsById(Long aLong) {
-        return false;
-    }
-
-    /*@Override
-    protected RecordDTO createDtoFromEntity(RecordEntity entity) {
-        if (entity == null) return null;
-        return recordMapper.toDto(entity);
-    }
-
-    @Override
-    protected RecordEntity createEntityFromDto(RecordDTO dto) {
-        if (dto == null) return null;
-        return recordMapper.toEntity(dto);
-    }
-
-    @Override
-    protected RecordDTO createNewDtoForCreation() {
-        return RecordDTO.builder()
-                .score(180)
-                .datePlayed(LocalDateTime.of(2023, 1, 5, 14, 0))
-                .gameId(14L)
-                .userId(24L)
-                .build();
-    }
-
-    @Override
-    protected RecordDTO createUpdateDtoDetails(RecordDTO originalDto) {
-        return RecordDTO.builder()
-                .id(originalDto != null ? originalDto.getId() : null)
-                .score(300)
-                .datePlayed(LocalDateTime.of(2023, 1, 6, 15, 0))
-                .gameId(15L)
-                .userId(25L)
-                .build();
-    }
-
-    @Override
-    protected Optional<RecordDTO> callServiceFindById(Long id) {
-        return service.GetById(id);
-    }
-
-    @Override
-    protected RecordDTO callServiceCreate(RecordDTO dto) {
-        return service.Add(dto);
-    }
-
-    @Override
-    protected RecordDTO callServiceUpdate(Long id, RecordDTO dto) {
-        dto.setId(id); // Встановлюємо ID для операції оновлення DTO
-        return service.Update(dto);
+    protected RecordEntity callServiceUpdate(Long id, RecordEntity entityDetails)
+    {
+        RecordDTO dto = recordMapper.toDto(entityDetails);
+        dto.setId(id);
+        RecordDTO updatedDto = service.Update(dto);
+        return recordMapper.toEntity(updatedDto);
     }
 
     @Override
@@ -230,7 +209,6 @@ public class RecordServiceDaoTest extends AbstractServiceDaoTest<IRecordReposito
 
     @Override
     protected boolean callServiceExistsById(Long id) {
-        return service.GetById(id).isPresent(); // Перевіряємо існування через GetById
+        return service.GetById(id).isPresent();
     }
-*/
 }

@@ -112,10 +112,6 @@ public abstract class AbstractServiceDaoTest<R extends JpaRepository<E, ID>,S ex
 
         assertNotNull(createdEntity, "Created entity should not be null");
         assertEquals(expectedSavedEntity, createdEntity, "Created entity should match the expected saved entity");
-        // Це verify може дати збій через перетворення DTO -> Entity в сервісі.
-        // Сервіс збереже об'єкт, створений маппером, який не буде тим самим newEntity
-        // Замість verify(repository, times(1)).save(newEntity); може знадобитися
-        // verify(repository, times(1)).save(argThat(entity -> entity.equals(newEntity)));
         verify(repository, times(1)).save(newEntity);
     }
 
