@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RecordDTO
+public class RecordDTO implements IIdentifiableDTO
 {
     private Long id;
     private Long gameId;

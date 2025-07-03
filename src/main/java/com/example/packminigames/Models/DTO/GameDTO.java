@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GameDTO
+public class GameDTO implements IIdentifiableDTO
 {
     private Long id;
     private String title;

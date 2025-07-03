@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDTO
+public class UserDTO implements IIdentifiableDTO
 {
     private Long id;
     private String username;

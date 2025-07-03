@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GameIconDTO
+public class GameIconDTO implements IIdentifiableDTO
 {
     private Long id;
     private String name;
