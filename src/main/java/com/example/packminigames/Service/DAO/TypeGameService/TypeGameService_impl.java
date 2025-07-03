@@ -18,7 +18,6 @@ public class TypeGameService_impl implements ITypeGameService
     private final ITypeGameRepository typeGameRepository;
     private final ITypeGameMapper typeGameMapper;
 
-
     @Override
     public List<TypeGameDTO> GetAll() {
         List<TypeGameEntity> typeGameEntities = typeGameRepository.findAll();

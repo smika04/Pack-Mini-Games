@@ -18,7 +18,6 @@ public class UserService_impl implements IUserService
     private final IUserRepository userRepository;
     private final IUserMapper userMapper;
 
-
     @Override
     public List<UserDTO> GetAll() {
         List<UserEntity> userEntities = userRepository.findAll();

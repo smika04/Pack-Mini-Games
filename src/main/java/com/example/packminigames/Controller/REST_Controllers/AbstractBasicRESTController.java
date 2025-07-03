@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class AbstractBasicRESTController<SERVICE extends IBasicServiceDAO<DTO>, DTO extends IIdentifiableDTO> implements IREST_ControllerDAO<DTO>
+public abstract class AbstractBasicRESTController<SERVICE extends IBasicServiceDAO<DTO>, DTO extends IIdentifiableDTO> implements IREST_ControllerDAO<DTO>
 {
     private final SERVICE service;
 
