@@ -1,37 +1,15 @@
 package com.example.packminigames.Controller.REST_Controllers.RecordController;
 
+import com.example.packminigames.Controller.REST_Controllers.AbstractBasicRESTController;
 import com.example.packminigames.Models.DTO.RecordDTO;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import com.example.packminigames.Service.DAO.RecordService.RecordService_impl;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/record")
-public class RecordREST_Controller_impl implements IRecordREST_Controller{
-    @Override
-    public ResponseEntity<RecordDTO> create(RecordDTO dto) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<RecordDTO> getById(Long id) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<List<RecordDTO>> getAll() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<RecordDTO> update(Long id, RecordDTO dto) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Void> delete(Long id) {
-        return null;
+public class RecordREST_Controller_impl extends AbstractBasicRESTController<RecordService_impl, RecordDTO> implements IRecordREST_Controller
+{
+    public RecordREST_Controller_impl(RecordService_impl recordServiceImpl) {
+        super(recordServiceImpl);
     }
 }
