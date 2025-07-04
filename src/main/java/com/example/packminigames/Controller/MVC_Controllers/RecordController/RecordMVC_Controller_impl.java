@@ -1,51 +1,16 @@
 package com.example.packminigames.Controller.MVC_Controllers.RecordController;
 
+import com.example.packminigames.Controller.MVC_Controllers.AbstractBasicMVCController;
 import com.example.packminigames.Models.DTO.RecordDTO;
+import com.example.packminigames.Service.DAO.RecordService.RecordService_impl;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/record")
-public class RecordMVC_Controller_impl implements IRecordMVC_Controller{
-    @Override
-    public String View(String name, Model model) {
-        return "";
-    }
-
-    @Override
-    public String Details(Long id, Model model) {
-        return "";
-    }
-
-    @Override
-    public String ShowForm(Model model) {
-        return "";
-    }
-
-    @Override
-    public String Create(RecordDTO dto, RedirectAttributes redirectAttributes) {
-        return "";
-    }
-
-    @Override
-    public String ShowEdit(Long id, Model model) {
-        return "";
-    }
-
-    @Override
-    public String Update(Long id, RecordDTO dto, RedirectAttributes redirectAttributes) {
-        return "";
-    }
-
-    @Override
-    public String Delete(Long id, RedirectAttributes redirectAttributes) {
-        return "";
-    }
-
-    @Override
-    public String DeletePost(Long id, RedirectAttributes redirectAttributes) {
-        return "";
+public class RecordMVC_Controller_impl extends AbstractBasicMVCController<RecordService_impl, RecordDTO> implements IRecordMVC_Controller
+{
+    public RecordMVC_Controller_impl(RecordService_impl recordServiceImpl, String basePath, String dtoAttributeName, Class<RecordDTO> recordDTOClass) {
+        super(recordServiceImpl, basePath, dtoAttributeName, recordDTOClass);
     }
 }
