@@ -6,7 +6,7 @@ import com.example.packminigames.Service.DAO.TypeGameService.TypeGameService_imp
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/typeGame")
+@RequestMapping("/api/typegames")
 public class TypeGameREST_Controller_impl extends AbstractBasicRESTController<TypeGameService_impl, TypeGameDTO> implements ITypeGameREST_Controller
 {
     public TypeGameREST_Controller_impl(TypeGameService_impl typeGameServiceImpl) {

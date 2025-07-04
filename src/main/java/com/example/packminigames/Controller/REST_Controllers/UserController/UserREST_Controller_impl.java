@@ -6,7 +6,7 @@ import com.example.packminigames.Service.DAO.UserService.UserService_impl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserREST_Controller_impl extends AbstractBasicRESTController<UserService_impl, UserDTO> implements IUserREST_Controller
 {
     public UserREST_Controller_impl(UserService_impl userService) {

@@ -43,16 +43,15 @@ public abstract class AbstractControllerRESTDaoTest<DTO, SERVICE extends IBasicS
 
     @Test
     @DisplayName("GET /base_url - Should return all DTOs")
-    void testGetAllReturnsAll() throws Exception {
-        // Given
+    void testGetAllReturnsAll() throws Exception
+    {
         DTO dto1 = createDTO(1L, "Test1");
         DTO dto2 = createDTO(2L, "Test2");
         setupGetAll(List.of(dto1, dto2));
 
-        // When & Then
-        mockMvc.perform(get(getBaseUrl()) // Використовуємо явний get()
+        mockMvc.perform(get(getBaseUrl())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()) // Використовуємо явний status()
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1L)) // Використовуємо явний jsonPath()
                 .andExpect(jsonPath("$[1].id").value(2L));
 
@@ -61,109 +60,103 @@ public abstract class AbstractControllerRESTDaoTest<DTO, SERVICE extends IBasicS
 
     @Test
     @DisplayName("GET /base_url/{id} - Should return DTO by ID if found")
-    void testGetByIdFound() throws Exception {
-        // Given
+    void testGetByIdFound() throws Exception
+    {
         DTO dto = createDTO(1L, "TestUser");
         setupGetById(1L, Optional.of(dto));
 
-        // When & Then
-        mockMvc.perform(get(getBaseUrl() + "/1") // Використовуємо явний get()
+        mockMvc.perform(get(getBaseUrl() + "/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()) // Використовуємо явний status()
-                .andExpect(jsonPath("$.id").value(1L)); // Використовуємо явний jsonPath()
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L));
 
         verifyGetByIdCalled(1L);
     }
 
     @Test
     @DisplayName("GET /base_url/{id} - Should return 404 Not Found if DTO not found")
-    void testGetByIdNotFound() throws Exception {
-        // Given
+    void testGetByIdNotFound() throws Exception
+    {
         setupGetById(99L, Optional.empty());
 
-        // When & Then
-        mockMvc.perform(get(getBaseUrl() + "/99") // Використовуємо явний get()
+        mockMvc.perform(get(getBaseUrl() + "/99")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound()); // Використовуємо явний status()
+                .andExpect(status().isNotFound());
 
         verifyGetByIdCalled(99L);
     }
 
     @Test
     @DisplayName("POST /base_url - Should create a new DTO")
-    void testCreateNew() throws Exception {
-        // Given
+    void testCreateNew() throws Exception
+    {
         DTO newDto = createDTO(null, "NewItem");
         DTO createdDto = createDTO(3L, "NewItem");
         setupAdd(createdDto);
 
-        // When & Then
-        mockMvc.perform(post(getBaseUrl()) // Використовуємо явний post()
+        mockMvc.perform(post(getBaseUrl())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newDto)))
-                .andExpect(status().isCreated()) // Використовуємо явний status()
-                .andExpect(jsonPath("$.id").value(3L)); // Використовуємо явний jsonPath()
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(3L));
 
         verifyAddCalled();
     }
 
     @Test
     @DisplayName("PUT /base_url/{id} - Should update an existing DTO")
-    void testUpdateExisting() throws Exception {
-        // Given
+    void testUpdateExisting() throws Exception
+    {
         DTO updatedDto = createDTO(1L, "UpdatedItem");
         setupUpdate(updatedDto);
 
-        // When & Then
-        mockMvc.perform(put(getBaseUrl() + "/1") // Використовуємо явний put()
+        mockMvc.perform(put(getBaseUrl() + "/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updatedDto)))
-                .andExpect(status().isOk()) // Використовуємо явний status()
-                .andExpect(jsonPath("$.id").value(1L)); // Використовуємо явний jsonPath()
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L));
 
         verifyUpdateCalled();
     }
 
     @Test
     @DisplayName("PUT /base_url/{id} - Should return 404 Not Found if DTO to update not found")
-    void testUpdateNotFound() throws Exception {
-        // Given
+    void testUpdateNotFound() throws Exception
+    {
         DTO nonExistentDto = createDTO(99L, "NonExistent");
         setupUpdateThrows(new jakarta.persistence.EntityNotFoundException("Item not found"));
 
-        // When & Then
-        mockMvc.perform(put(getBaseUrl() + "/99") // Використовуємо явний put()
+        mockMvc.perform(put(getBaseUrl() + "/99")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(nonExistentDto)))
-                .andExpect(status().isNotFound()); // Використовуємо явний status()
+                .andExpect(status().isNotFound());
 
         verifyUpdateCalled();
     }
 
     @Test
     @DisplayName("DELETE /base_url/{id} - Should delete an existing DTO")
-    void testDeleteExisting() throws Exception {
-        // Given
+    void testDeleteExisting() throws Exception
+    {
         setupDelete(1L);
 
-        // When & Then
-        mockMvc.perform(delete(getBaseUrl() + "/1") // Використовуємо явний delete()
+
+        mockMvc.perform(delete(getBaseUrl() + "/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent()); // Використовуємо явний status()
+                .andExpect(status().isNoContent());
 
         verifyDeleteCalled(1L);
     }
 
     @Test
     @DisplayName("DELETE /base_url/{id} - Should return 404 Not Found if DTO to delete not found")
-    void testDeleteNotFound() throws Exception {
-        // Given
+    void testDeleteNotFound() throws Exception
+    {
         setupDeleteThrows(99L, new RuntimeException("Сутність з ID 99 не знайдена."));
 
-        // When & Then
-        mockMvc.perform(delete(getBaseUrl() + "/99") // Використовуємо явний delete()
+        mockMvc.perform(delete(getBaseUrl() + "/99")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound()); // Використовуємо явний status()
+                .andExpect(status().isNotFound());
 
         verifyDeleteCalled(99L);
     }

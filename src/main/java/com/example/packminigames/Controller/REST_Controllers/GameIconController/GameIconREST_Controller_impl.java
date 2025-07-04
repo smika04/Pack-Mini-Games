@@ -6,7 +6,7 @@ import com.example.packminigames.Service.DAO.GameIconService.GameIconService_imp
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/game-icon")
+@RequestMapping("/api/gameicons")
 public class GameIconREST_Controller_impl extends AbstractBasicRESTController<GameIconService_impl,GameIconDTO> implements IGameIconREST_Controller
 {
     public GameIconREST_Controller_impl(GameIconService_impl gameIconServiceImpl) {
