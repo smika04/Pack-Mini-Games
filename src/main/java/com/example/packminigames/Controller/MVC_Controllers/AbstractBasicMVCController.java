@@ -114,7 +114,5 @@ public abstract class AbstractBasicMVCController<SERVICE extends IBasicServiceDA
     }
 
     @Override
-    public String Delete(Long id, RedirectAttributes redirectAttributes) {
-        return DeletePost(id, redirectAttributes);
-    }
+    public String Delete(Long id, RedirectAttributes redirectAttributes) {return DeletePost(id, redirectAttributes);}
 }

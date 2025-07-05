@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserMVC_Controller_impl extends AbstractBasicMVCController<UserService_impl, UserDTO> implements IUserMVC_Controller
 {
-    public UserMVC_Controller_impl(UserService_impl userServiceImpl, String basePath, String dtoAttributeName, Class<UserDTO> userDTOClass) {
-        super(userServiceImpl, basePath, dtoAttributeName, userDTOClass);
+    public UserMVC_Controller_impl(UserService_impl userServiceImpl) {
+        super(userServiceImpl, "/user", "/user", UserDTO.class);
     }
 }

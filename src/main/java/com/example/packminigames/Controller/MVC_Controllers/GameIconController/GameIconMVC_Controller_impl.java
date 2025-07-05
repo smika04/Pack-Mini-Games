@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/game-icons")
 public class GameIconMVC_Controller_impl extends AbstractBasicMVCController<GameIconService_impl, GameIconDTO> implements IGameIconMVC_Controller
 {
-    public GameIconMVC_Controller_impl(GameIconService_impl gameIconServiceImpl, String basePath, String dtoAttributeName, Class<GameIconDTO> gameIconDTOClass) {
-        super(gameIconServiceImpl, basePath, dtoAttributeName, gameIconDTOClass);
+    public GameIconMVC_Controller_impl(GameIconService_impl gameIconServiceImpl) {
+        super(gameIconServiceImpl, "/game-icons", "/game-icons", GameIconDTO.class);
     }
 }

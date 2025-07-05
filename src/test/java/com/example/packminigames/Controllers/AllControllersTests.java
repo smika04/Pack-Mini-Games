@@ -9,7 +9,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @Suite
 @SuiteDisplayName("All Controllers Integration Tests")
 @SelectClasses({
-        //AllControllerMVCTest.class,
+        AllControllerMVCTest.class,
         AllControllerRESTTest.class
 })
 public class AllControllersTests {

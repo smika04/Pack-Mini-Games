@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/record")
 public class RecordMVC_Controller_impl extends AbstractBasicMVCController<RecordService_impl, RecordDTO> implements IRecordMVC_Controller
 {
-    public RecordMVC_Controller_impl(RecordService_impl recordServiceImpl, String basePath, String dtoAttributeName, Class<RecordDTO> recordDTOClass) {
-        super(recordServiceImpl, basePath, dtoAttributeName, recordDTOClass);
+    public RecordMVC_Controller_impl(RecordService_impl recordServiceImpl) {
+        super(recordServiceImpl, "/record", "/record", RecordDTO.class);
     }
 }

@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/game")
 public class GameMVC_Controller_impl extends AbstractBasicMVCController<GameService_impl, GameDTO> implements IGameMVC_Controller
 {
-    public GameMVC_Controller_impl(GameService_impl gameServiceImpl, String basePath, String dtoAttributeName, Class<GameDTO> gameDTOClass) {
-        super(gameServiceImpl, basePath, dtoAttributeName, gameDTOClass);
+    public GameMVC_Controller_impl(GameService_impl gameServiceImpl) {
+        super(gameServiceImpl, "/game", "game", GameDTO.class);
     }
+
 }
